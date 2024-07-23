@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    image: pm-service
+    container_name: pm-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
