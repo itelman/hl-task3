@@ -1,16 +1,27 @@
-# Сборка образа Docker
-build:
-	docker-compose build
+# Define variables for docker-compose
+DOCKER_COMPOSE = docker-compose
 
-# Запуск контейнеров
+# Default target to build and run the services
+.PHONY: up
 up:
-	docker-compose up -d
+	$(DOCKER_COMPOSE) up --build -d
 
-# Остановка и удаление контейнеров
+# Target to stop and remove containers, networks, volumes, and images
+.PHONY: down
 down:
-	docker-compose down
+	$(DOCKER_COMPOSE) down
 
-# Перезапуск контейнеров
-restart: down up
+# Target to view logs from all services
+.PHONY: logs
+logs:
+	$(DOCKER_COMPOSE) logs -f
 
-.PHONY: build up down restart
+# Target to access the Go app container's shell
+.PHONY: app-sh
+app-sh:
+	$(DOCKER_COMPOSE) exec app /bin/sh
+
+# Target to access the PostgreSQL container's shell
+.PHONY: db-sh
+db-sh:
+	$(DOCKER_COMPOSE) exec db /bin/bash

@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"database/sql"
+	"pm-service/internal/repository/mock"
 	"pm-service/internal/repository/models"
 	"pm-service/internal/repository/postgres"
 )
 
 type Handler struct {
-	inputs interface {
+	input interface {
 		NewUserInput() models.UserInput
 		NewTaskInput() models.TaskInput
 		NewProjectInput() models.ProjectInput
@@ -23,14 +24,6 @@ type Handler struct {
 		GetAll() ([]*models.User, error)
 		GetAllBy(string, string) ([]*models.User, error)
 	}
-	tasks interface {
-		Insert(*models.TaskInput) (int, error)
-		Get(string) (*models.Task, error)
-		Delete(string) error
-		Update(string, *models.TaskInput) error
-		GetAll() ([]*models.Task, error)
-		GetAllBy(string, string) ([]*models.Task, error)
-	}
 	projects interface {
 		Insert(*models.ProjectInput) (int, error)
 		Get(string) (*models.Project, error)
@@ -39,14 +32,32 @@ type Handler struct {
 		GetAll() ([]*models.Project, error)
 		GetAllBy(string, string) ([]*models.Project, error)
 	}
+	tasks interface {
+		Insert(*models.TaskInput) (int, error)
+		Get(string) (*models.Task, error)
+		Delete(string) error
+		Update(string, *models.TaskInput) error
+		GetAll() ([]*models.Task, error)
+		GetAllBy(string, string) ([]*models.Task, error)
+	}
 }
 
 func New(db *sql.DB) *Handler {
 	return &Handler{
-		&models.Inputs{},
+		&models.Input{},
 		&models.Errors{},
 		&postgres.UserModel{DB: db},
-		&postgres.TaskModel{DB: db},
 		&postgres.ProjectModel{DB: db},
+		&postgres.TaskModel{DB: db},
+	}
+}
+
+func Mock() *Handler {
+	return &Handler{
+		&models.Input{},
+		&models.Errors{},
+		&mock.UserModel{DB: make([]*models.User, 0)},
+		&mock.ProjectModel{DB: make([]*models.Project, 0)},
+		&mock.TaskModel{DB: make([]*models.Task, 0)},
 	}
 }

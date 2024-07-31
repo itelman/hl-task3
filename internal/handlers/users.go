@@ -39,7 +39,7 @@ func (h *Handler) ShowAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 // @Failure		500		{object}	map[string]string
 // @Router			/users [post]
 func (h *Handler) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
-	input := h.inputs.NewUserInput()
+	input := h.input.NewUserInput()
 
 	if err := helpers.ReadJSON(w, r, &input); err != nil {
 		errors.BadRequestResponse(w, r)
@@ -105,7 +105,7 @@ func (h *Handler) ShowUserHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	input := h.inputs.NewUserInput()
+	input := h.input.NewUserInput()
 
 	if err := helpers.ReadJSON(w, r, &input); err != nil {
 		errors.BadRequestResponse(w, r)

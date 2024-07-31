@@ -12,6 +12,12 @@ import (
 	_ "pm-service/docs"
 )
 
+type routes struct {
+	Path    string
+	Handler func(http.ResponseWriter, *http.Request)
+	Method  string
+}
+
 //	@title			Project Management Service
 //	@version		1.0
 //	@description	This is an API server for project management service.
@@ -25,42 +31,46 @@ import (
 //	@license.name	MIT
 //	@license.url	https://opensource.org/licenses/MIT
 
-//	@BasePath	/health
-func Routes(handlers *handlers.Handler) http.Handler {
+// @BasePath	/health
+func Routing(handlers *handlers.Handler) http.Handler {
 	// Create a middleware chain containing our 'standard' middleware
 	// which will be used for every request our app receives.
 	standardMiddleware := alice.New(recoverPanic, logRequest, secureHeaders)
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/users", handlers.ShowAllUsersHandler).Methods("GET")
-	router.HandleFunc("/users", handlers.CreateUserHandler).Methods("POST")
-	router.HandleFunc("/users/search", handlers.SearchUsersHandler).Methods("GET")
-	router.HandleFunc("/users/{id}", handlers.ShowUserHandler).Methods("GET")
-	router.HandleFunc("/users/{id}", handlers.UpdateUserHandler).Methods("PUT")
-	router.HandleFunc("/users/{id}", handlers.DeleteUserHandler).Methods("DELETE")
-	router.HandleFunc("/users/{id}/tasks", handlers.ShowUserTasksHandler).Methods("GET")
+	routes := []routes{
+		{"/health", handlers.HealthCheckHandler, http.MethodGet},
+		{"/users", handlers.ShowAllUsersHandler, http.MethodGet},
+		{"/users", handlers.CreateUserHandler, http.MethodPost},
+		{"/users/search", handlers.SearchUsersHandler, http.MethodGet},
+		{"/tasks", handlers.ShowAllTasksHandler, http.MethodGet},
+		{"/tasks", handlers.CreateTaskHandler, http.MethodPost},
+		{"/tasks/search", handlers.SearchTasksHandler, http.MethodGet},
+		{"/projects", handlers.ShowAllProjectsHandler, http.MethodGet},
+		{"/projects", handlers.CreateProjectHandler, http.MethodPost},
+		{"/projects/search", handlers.SearchProjectsHandler, http.MethodGet},
+		{"/users/{id:[0-9]+}", handlers.ShowUserHandler, http.MethodGet},
+		{"/users/{id:[0-9]+}", handlers.UpdateUserHandler, http.MethodPut},
+		{"/users/{id:[0-9]+}", handlers.DeleteUserHandler, http.MethodDelete},
+		{"/users/{id:[0-9]+}/tasks", handlers.ShowUserTasksHandler, http.MethodGet},
+		{"/projects/{id:[0-9]+}", handlers.ShowProjectHandler, http.MethodGet},
+		{"/projects/{id:[0-9]+}", handlers.UpdateProjectHandler, http.MethodPut},
+		{"/projects/{id:[0-9]+}", handlers.DeleteProjectHandler, http.MethodDelete},
+		{"/projects/{id:[0-9]+}/tasks", handlers.ShowProjectTasksHandler, http.MethodGet},
+		{"/tasks/{id:[0-9]+}", handlers.ShowTaskHandler, http.MethodGet},
+		{"/tasks/{id:[0-9]+}", handlers.UpdateTaskHandler, http.MethodPut},
+		{"/tasks/{id:[0-9]+}", handlers.DeleteTaskHandler, http.MethodDelete},
+	}
 
-	router.HandleFunc("/tasks", handlers.ShowAllTasksHandler).Methods("GET")
-	router.HandleFunc("/tasks", handlers.CreateTaskHandler).Methods("POST")
-	router.HandleFunc("/tasks/search", handlers.SearchTasksHandler).Methods("GET")
-	router.HandleFunc("/tasks/{id}", handlers.ShowTaskHandler).Methods("GET")
-	router.HandleFunc("/tasks/{id}", handlers.UpdateTaskHandler).Methods("PUT")
-	router.HandleFunc("/tasks/{id}", handlers.DeleteTaskHandler).Methods("DELETE")
-
-	router.HandleFunc("/projects", handlers.ShowAllProjectsHandler).Methods("GET")
-	router.HandleFunc("/projects", handlers.CreateProjectHandler).Methods("POST")
-	router.HandleFunc("/projects/search", handlers.SearchProjectsHandler).Methods("GET")
-	router.HandleFunc("/projects/{id}", handlers.ShowProjectHandler).Methods("GET")
-	router.HandleFunc("/projects/{id}", handlers.UpdateProjectHandler).Methods("PUT")
-	router.HandleFunc("/projects/{id}", handlers.DeleteProjectHandler).Methods("DELETE")
-	router.HandleFunc("/projects/{id}/tasks", handlers.ShowProjectTasksHandler).Methods("GET")
-
-	router.HandleFunc("/health", handlers.HealthCheckHandler).Methods("GET")
 	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler).Methods("GET")
 
 	router.NotFoundHandler = http.HandlerFunc(errors.NotFoundResponse)
 	router.MethodNotAllowedHandler = http.HandlerFunc(errors.MethodNotAllowedResponse)
+
+	for _, route := range routes {
+		router.HandleFunc(route.Path, route.Handler).Methods(route.Method)
+	}
 
 	return standardMiddleware.Then(router)
 }

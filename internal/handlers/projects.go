@@ -40,7 +40,7 @@ func (h *Handler) ShowAllProjectsHandler(w http.ResponseWriter, r *http.Request)
 // @Failure		500		{object}	map[string]string
 // @Router			/projects [post]
 func (h *Handler) CreateProjectHandler(w http.ResponseWriter, r *http.Request) {
-	input := h.inputs.NewProjectInput()
+	input := h.input.NewProjectInput()
 
 	if err := helpers.ReadJSON(w, r, &input); err != nil {
 		errors.BadRequestResponse(w, r)
@@ -106,7 +106,7 @@ func (h *Handler) ShowProjectHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) UpdateProjectHandler(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	input := h.inputs.NewProjectInput()
+	input := h.input.NewProjectInput()
 
 	if err := helpers.ReadJSON(w, r, &input); err != nil {
 		errors.BadRequestResponse(w, r)

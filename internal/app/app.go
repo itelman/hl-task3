@@ -9,10 +9,9 @@ import (
 )
 
 type Application struct {
-	Port     int
-	DB       *sql.DB
-	Routes   http.Handler
-	Handlers *handlers.Handler
+	Port   int
+	DB     *sql.DB
+	Routes http.Handler
 }
 
 func NewApp(port int) *Application {
@@ -23,5 +22,5 @@ func NewApp(port int) *Application {
 
 	handlers := handlers.New(db)
 
-	return &Application{port, db, config.Routes(handlers), handlers}
+	return &Application{port, db, config.Routing(handlers)}
 }

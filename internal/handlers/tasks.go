@@ -40,7 +40,7 @@ func (h *Handler) ShowAllTasksHandler(w http.ResponseWriter, r *http.Request) {
 // @Failure		500		{object}	map[string]string
 // @Router			/tasks [post]
 func (h *Handler) CreateTaskHandler(w http.ResponseWriter, r *http.Request) {
-	input := h.inputs.NewTaskInput()
+	input := h.input.NewTaskInput()
 
 	if err := helpers.ReadJSON(w, r, &input); err != nil {
 		errors.BadRequestResponse(w, r)
@@ -106,7 +106,7 @@ func (h *Handler) ShowTaskHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) UpdateTaskHandler(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	input := h.inputs.NewTaskInput()
+	input := h.input.NewTaskInput()
 
 	if err := helpers.ReadJSON(w, r, &input); err != nil {
 		errors.BadRequestResponse(w, r)

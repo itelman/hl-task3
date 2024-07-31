@@ -80,7 +80,7 @@ func (m *ProjectModel) GetAll() ([]*models.Project, error) {
 
 	defer rows.Close()
 
-	Projects := []*models.Project{}
+	projects := []*models.Project{}
 
 	for rows.Next() {
 		s := &models.Project{}
@@ -88,14 +88,14 @@ func (m *ProjectModel) GetAll() ([]*models.Project, error) {
 		if err != nil {
 			return nil, err
 		}
-		Projects = append(Projects, s)
+		projects = append(projects, s)
 	}
 
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
-	return Projects, nil
+	return projects, nil
 }
 
 func (m *ProjectModel) GetAllBy(arg, val string) ([]*models.Project, error) {

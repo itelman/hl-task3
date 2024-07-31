@@ -14,7 +14,7 @@ var (
 	statusRX   = regexp.MustCompile("^(to do|in progress|completed)$")
 )
 
-type Inputs struct {
+type Input struct {
 }
 
 type UserInput struct {
@@ -40,15 +40,15 @@ type ProjectInput struct {
 	Completed   string `json:"completed"`
 }
 
-func (i *Inputs) NewUserInput() UserInput {
+func (i *Input) NewUserInput() UserInput {
 	return UserInput{}
 }
 
-func (i *Inputs) NewTaskInput() TaskInput {
+func (i *Input) NewTaskInput() TaskInput {
 	return TaskInput{}
 }
 
-func (i *Inputs) NewProjectInput() ProjectInput {
+func (i *Input) NewProjectInput() ProjectInput {
 	return ProjectInput{}
 }
 
