@@ -17,8 +17,8 @@ var (
 )
 
 func OpenDB() (*sql.DB, error) {
-	//psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", "localhost", "5432", "admin", "password", "database")
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	//psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", "localhost", "5432", "admin", "password", "database")
 
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {

@@ -1,15 +1,16 @@
 version: '3.8'
 
 services:
-  db:
+  postgres:
     image: postgres
-    container_name: postgres_container
+    restart: always
+    container_name: postgres-container
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: database
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -23,9 +24,9 @@ services:
       DB_PASSWORD: password
       DB_NAME: database
     depends_on:
-      - db
+      - postgres
     ports:
       - "8080:8080"
 
 volumes:
-  postgres_data:
+  db:
