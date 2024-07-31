@@ -1,4 +1,4 @@
-package handlers
+package errors
 
 import (
 	"fmt"
@@ -37,6 +37,7 @@ func MethodNotAllowedResponse(w http.ResponseWriter, r *http.Request) {
 	errorResponse(w, http.StatusMethodNotAllowed, message)
 }
 
-func BadRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
-	errorResponse(w, http.StatusBadRequest, err.Error())
+func BadRequestResponse(w http.ResponseWriter, r *http.Request) {
+	message := "invalid request"
+	errorResponse(w, http.StatusBadRequest, message)
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"pm-service/internal/handlers"
+	"pm-service/internal/handlers/errors"
 )
 
 func secureHeaders(next http.Handler) http.Handler {
@@ -41,7 +41,7 @@ func recoverPanic(next http.Handler) http.Handler {
 				// error object by using the fmt.Errorf() function (which app.serverError expects).
 				// using fmt.Errorf() with err will create a new error object containing the default
 				// textual representation of the interface{} value panic returns.
-				handlers.ServerErrorResponse(w, r, fmt.Errorf("%s", err))
+				errors.ServerErrorResponse(w, r, fmt.Errorf("%s", err))
 			}
 		}()
 
