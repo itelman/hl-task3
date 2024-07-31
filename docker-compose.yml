@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:16
+    image: postgres
     container_name: postgres_container
     environment:
       POSTGRES_USER: admin
@@ -17,7 +17,7 @@ services:
     build: .
     container_name: pm-service
     environment:
-      DB_HOST: db
+      DB_HOST: localhost
       DB_PORT: 5432
       DB_USER: admin
       DB_PASSWORD: password
