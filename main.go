@@ -12,7 +12,7 @@ func main() {
 	port := flag.Int("port", 8080, "port for api")
 	flag.Parse()
 
-	app := app.NewApp(*port)
+	app := app.NewApp(*port, "migrations/postgres/00001_initial.up.sql")
 
 	defer app.DB.Close()
 

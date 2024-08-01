@@ -14,8 +14,8 @@ type Application struct {
 	Routes http.Handler
 }
 
-func NewApp(port int) *Application {
-	db, err := config.OpenDB()
+func NewApp(port int, scriptPath string) *Application {
+	db, err := config.OpenDB(scriptPath)
 	if err != nil {
 		log.Fatalln(err)
 	}

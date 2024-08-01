@@ -15,10 +15,13 @@ services:
       - "5432:5432"
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pm-service
     container_name: pm-service
     environment:
-      DB_HOST: localhost
+      DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: admin
       DB_PASSWORD: password
