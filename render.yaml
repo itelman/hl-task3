@@ -2,9 +2,9 @@ services:
   - type: web
     name: pm-service
     env: docker
-    plan: starter
-    buildCommand: docker build -t pm-service .
-    startCommand: docker run -p 8080:8080 pm-service
+    plan: free
+    buildCommand: docker compose build
+    startCommand: docker compose up -d
     envVars:
       - key: DB_HOST
         value: postgres
@@ -20,11 +20,11 @@ services:
       - name: http
         port: 8080
     databases:
-      - name: postgres-db
+      - name: postgres
 
 databases:
-  - name: postgres-db
-    plan: starter
+  - name: postgres
+    plan: free
     properties:
       user: admin
       password: password
