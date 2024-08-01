@@ -17,15 +17,12 @@ services:
       - key: DB_NAME
         value: database
     ports:
-      - name: http
-        port: 8080
-    databases:
-      - name: postgres
+      - port: 8080
+        public: true
 
 databases:
   - name: postgres
     plan: free
-    properties:
-      user: admin
-      password: password
-      dbname: database
+    user: admin
+    password: password
+    databaseName: database
