@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: pm-service
+    env: docker
+    plan: starter
+    buildCommand: docker build -t pm-service .
+    startCommand: docker run -p 8080:8080 pm-service
+    envVars:
+      - key: DB_HOST
+        value: postgres
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_USER
+        value: admin
+      - key: DB_PASSWORD
+        value: password
+      - key: DB_NAME
+        value: database
+    ports:
+      - name: http
+        port: 8080
+    databases:
+      - name: postgres-db
+
+databases:
+  - name: postgres-db
+    plan: starter
+    properties:
+      user: admin
+      password: password
+      dbname: database
