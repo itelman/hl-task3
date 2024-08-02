@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: database
     volumes:
       - db:/var/lib/postgresql/data
+    networks:
+      - network1
     ports:
       - "5432:5432"
 
@@ -28,8 +30,15 @@ services:
       DB_NAME: database
     depends_on:
       - postgres
+    networks:
+      - network1
     ports:
       - "8080:8080"
 
 volumes:
   db:
+    name: pm-service
+
+networks:
+  network1:
+    name: pm-service
