@@ -20,5 +20,5 @@ services:
 databases:
   - name: postgres
     plan: free
-    defaultDatabaseName: database
+    databaseName: database
     user: admin
