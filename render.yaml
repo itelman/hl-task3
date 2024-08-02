@@ -16,13 +16,9 @@ services:
         value: password
       - key: DB_NAME
         value: database
-    ports:
-      - port: 8080
-        public: true
 
 databases:
   - name: postgres
     plan: free
+    defaultDatabaseName: database
     user: admin
-    password: password
-    databaseName: database
