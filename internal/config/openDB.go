@@ -2,7 +2,6 @@ package config
 
 import (
 	"database/sql"
-	"fmt"
 	"os"
 
 	_ "github.com/lib/pq"
@@ -18,10 +17,11 @@ var (
 )
 
 func OpenDB(scriptPath string) (*sql.DB, error) {
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	//psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	//psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", "localhost", "5432", "admin", "password", "database")
+	dbURL := "postgresql://admin:WIgXi6DPeWA5sCjWxEHFCYwlabZsuNOS@dpg-cqm8b3jqf0us73a76c1g-a/database_54sg"
 
-	db, err := sql.Open("postgres", psqlInfo)
+	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		return nil, err
 	}
