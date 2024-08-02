@@ -4,7 +4,6 @@ services:
     env: docker
     plan: free
     buildCommand: docker compose build
-    startCommand: docker run -it
     envVars:
       - key: DB_HOST
         value: postgres
